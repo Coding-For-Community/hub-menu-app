@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View } from "react-native";
 
-export default function Index() {
-  return (
-    <View style={styles.main}>
-      <Text>Index.</Text>
-    </View>
-  );
+export function Login() {
+    return (
+        <View style={styles.main}>
+            <Text>This is the login page. TODO</Text>
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
