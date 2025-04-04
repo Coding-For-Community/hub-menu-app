@@ -1,4 +1,4 @@
-export interface ProductPageConfig {
+export interface Product {
     name: string,
     type: ProductType
     options: Option[]

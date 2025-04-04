@@ -1,6 +1,6 @@
 import {SectionList, StyleSheet, Text, View} from "react-native";
 import {H1, H2} from "@tamagui/text";
-import {Card, ScrollView, XStack, YGroup, YStack} from "tamagui";
+import {Card, H3, ScrollView, XStack, YGroup, YStack} from "tamagui";
 import {ProductPage} from "@/app/ProductPage";
 import {ProductWidget} from "@/components/ProductWidget";
 
@@ -25,14 +25,18 @@ export default function Menu() {
 		<ScrollView>
 			<YStack style={styles.main}>
 				<YStack style={styles.section}>
-					<H2>Seasonal Specials</H2>
-					<XStack style={styles.sectionRow}>
-						<Text>Hello</Text>
-						<Text>Bye</Text>
-					</XStack>
+					<H3>Seasonal Specials</H3>
+					<ScrollView horizontal>
+						<XStack style={styles.sectionRow}>
+							<ProductWidget />
+							<ProductWidget />
+							<ProductWidget />
+							<ProductWidget />
+						</XStack>
+					</ScrollView>
 				</YStack>
 				<YStack style={styles.section}>
-					<H2>Seasonal Specials</H2>
+					<H3>Seasonal Specials</H3>
 					<ScrollView horizontal={true}>
 						<XStack style={styles.sectionRow}>
 							<ProductWidget />
@@ -51,13 +55,14 @@ const styles = StyleSheet.create({
 		justifyContent: "flex-start",
 		alignItems: "flex-start",
 		marginLeft: 20,
-		marginTop: 10
+		marginTop: 10,
+		marginBottom: 30
 	},
 	sectionRow: {
 		justifyContent: "flex-start",
 		alignItems: "flex-start",
 		gap: 20,
-		marginTop: 5
+		marginTop: 10
 	},
 	item: {},
 	header: {},
