@@ -1,21 +1,65 @@
-import { StyleSheet, Text, View } from "react-native";
-import { H2 } from "tamagui";
+import {SectionList, StyleSheet, Text, View} from "react-native";
+import {H1, H2} from "@tamagui/text";
+import {Card, ScrollView, XStack, YGroup, YStack} from "tamagui";
+import {ProductPage} from "@/app/ProductPage";
+import {ProductWidget} from "@/components/ProductWidget";
+
+const MENU_DATA = [
+	{
+		title: "Seasonal Specials",
+		data: ["Food!"]
+	},
+	{
+		title: "Hot Drinks",
+		data: []
+	},
+	{
+		title: "Cold Drinks",
+		data: []
+	}
+]
+
 
 export default function Menu() {
-    return (
-        <View style={styles.main}>
-            <H2>Seasonal Specials</H2>
-            <H2>Hot Drinks</H2>
-            <H2>Cold Drinks</H2>
-            <Text>This is the menu. TODO</Text>
-        </View>
-    )
+	return (
+		<ScrollView>
+			<YStack style={styles.main}>
+				<YStack style={styles.section}>
+					<H2>Seasonal Specials</H2>
+					<XStack style={styles.sectionRow}>
+						<Text>Hello</Text>
+						<Text>Bye</Text>
+					</XStack>
+				</YStack>
+				<YStack style={styles.section}>
+					<H2>Seasonal Specials</H2>
+					<ScrollView horizontal={true}>
+						<XStack style={styles.sectionRow}>
+							<ProductWidget />
+							<ProductWidget />
+						</XStack>
+					</ScrollView>
+				</YStack>
+			</YStack>
+		</ScrollView>
+	)
 }
 
 const styles = StyleSheet.create({
-    main: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    }
+	main: {},
+	section: {
+		justifyContent: "flex-start",
+		alignItems: "flex-start",
+		marginLeft: 20,
+		marginTop: 10
+	},
+	sectionRow: {
+		justifyContent: "flex-start",
+		alignItems: "flex-start",
+		gap: 20,
+		marginTop: 5
+	},
+	item: {},
+	header: {},
+	title: {}
 })
