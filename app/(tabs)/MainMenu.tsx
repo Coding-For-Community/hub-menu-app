@@ -1,8 +1,8 @@
-import {SectionList, StyleSheet, Text, View} from "react-native";
-import {H1, H2} from "@tamagui/text";
-import {Card, H3, ScrollView, XStack, YGroup, YStack} from "tamagui";
+import {ScrollView, SectionList, StyleSheet, Text, View} from "react-native";
 import {ProductPage} from "@/app/ProductPage";
 import {ProductWidget} from "@/components/ProductWidget";
+import { XStack, YStack } from "@/components/View";
+import { H3 } from "@/rn-reusables/ui/typography";
 
 const MENU_DATA = [
 	{

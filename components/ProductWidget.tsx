@@ -1,19 +1,21 @@
 import { memo, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Button, Circle, Image, Sheet, SheetProps, Text, YStack } from "tamagui";
+import { Image, StyleSheet, View } from "react-native";
+import { YStack } from "./View";
+import { Text } from "@/rn-reusables/ui/text";
+import { Button } from "@/rn-reusables/ui/button";
 
 export function ProductWidget() {
     const [modalOpen, setModalOpen] = useState(false)
     return (
         <>
-            <YStack alignItems="center" onPress={() => setModalOpen(true)}>
+            <YStack onPress={() => setModalOpen(true)}>
                 <Image source={require("../assets/images/coffee.jpeg")} style={styles.productImg}/>
                 <Text>Latte</Text>
             </YStack>
 
             {/* <Sheet /> */}
 
-            <Sheet animation="medium" open={modalOpen} onOpenChange={setModalOpen}>
+            {/* <Sheet animation="medium" open={modalOpen} onOpenChange={setModalOpen}>
                 <Sheet.Overlay
                     animation="lazy"
                     enterStyle={{ opacity: 0 }}
@@ -23,7 +25,7 @@ export function ProductWidget() {
                 <Sheet.Frame style={styles.modal}>
                     <SheetContents closeModal={() => setModalOpen(false)} />
                 </Sheet.Frame>
-            </Sheet>
+            </Sheet> */}
         </>
     )
 }
