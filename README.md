@@ -2,6 +2,9 @@
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
+## Important Notes for Daniel
+1. For IOS deployment, make sure to check out the installation for react-native-reanimated, tailwind, nativewind, and react native gesture handler v2. There's prob custom setup for those in order for IOS deployment to work!!!!!!
+
 ## Get started
 
 1. Install dependencies

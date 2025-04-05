@@ -1,32 +1,31 @@
-import { memo, useState } from "react";
+import { RefObject, memo, useMemo, useState } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { YStack } from "./View";
 import { Text } from "@/rn-reusables/ui/text";
 import { Button } from "@/rn-reusables/ui/button";
+import BottomSheet, { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
+import { ProductType, useProductState } from "@/state/Product";
 
 export function ProductWidget() {
-    const [modalOpen, setModalOpen] = useState(false)
+    const setCurrProduct = useProductState(state => state.setCurrentProduct)
     return (
-        <>
-            <YStack onPress={() => setModalOpen(true)}>
-                <Image source={require("../assets/images/coffee.jpeg")} style={styles.productImg}/>
-                <Text>Latte</Text>
-            </YStack>
-
-            {/* <Sheet /> */}
-
-            {/* <Sheet animation="medium" open={modalOpen} onOpenChange={setModalOpen}>
-                <Sheet.Overlay
-                    animation="lazy"
-                    enterStyle={{ opacity: 0 }}
-                    exitStyle={{ opacity: 0 }}
-                />
-                <Sheet.Handle />
-                <Sheet.Frame style={styles.modal}>
-                    <SheetContents closeModal={() => setModalOpen(false)} />
-                </Sheet.Frame>
-            </Sheet> */}
-        </>
+        <YStack 
+            onPress={() => setCurrProduct({
+                name: "latte",
+                type: ProductType.COLD_DRINK,
+                options: []
+            })}    
+            style={{ alignItems: "center" }}
+        >
+            <Image 
+                source={require("../assets/images/coffee.jpeg")}    
+                style={{
+                    width: 120,
+                    height: 120,
+                    borderRadius: 60
+                }}/>
+            <Text>Latte</Text>
+        </YStack>
     )
 }
 

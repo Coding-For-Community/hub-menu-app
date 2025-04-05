@@ -8,6 +8,7 @@ import { Platform } from 'react-native';
 import { NAV_THEME } from '~/rn-reusables/lib/constants';
 import { useColorScheme } from '~/rn-reusables/lib/useColorScheme'
 import {verifyInstallation} from 'nativewind';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -25,7 +26,7 @@ ErrorBoundary,
 
 export default function RootLayout() {
   const hasMounted = React.useRef(false);
-  const { colorScheme, isDarkColorScheme } = useColorScheme();
+  const { setColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
   useIsomorphicLayoutEffect(() => {
@@ -46,15 +47,20 @@ export default function RootLayout() {
   }
 
   verifyInstallation();
+  setColorScheme("light");
 
+  // GestureHandlerRootView allows for react-native-bottom-sheet to work,
+  // While ThemeProvider allows useTheme() to return the proper theme within components.
   return (
-    <ThemeProvider value={LIGHT_THEME}>
-      <StatusBar style={'light'} />
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
-        <Stack.Screen name="+not-found"/>
-      </Stack>
-    </ThemeProvider>
+    <GestureHandlerRootView> 
+      <ThemeProvider value={LIGHT_THEME}>
+        <StatusBar style={'light'} />
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
+          <Stack.Screen name="+not-found"/>
+        </Stack>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }
 
