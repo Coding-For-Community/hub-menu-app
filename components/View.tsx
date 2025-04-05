@@ -3,7 +3,7 @@ import { TouchableOpacity, View, ViewProps } from "react-native";
 // Simple aliases for horizontal and vertical Views that are more clear in their orientation.
 
 export function XStack(props: StackProps) {
-    const base = <View {...props} style={{flexDirection: "row"}}/>
+    const base = <View {...props} style={[props.style, {flexDirection: "row"}]}/>
     if (props.onPress == null) {
         return base
     } else {
@@ -12,7 +12,8 @@ export function XStack(props: StackProps) {
 }
 
 export function YStack(props: StackProps) {
-    const base = <View {...props} style={{flexDirection: "column"}}/>
+    const x = props.style
+    const base = <View {...props} style={[props.style, {flexDirection: "column"}]}/>
     if (props.onPress == null) {
         return base
     } else {
