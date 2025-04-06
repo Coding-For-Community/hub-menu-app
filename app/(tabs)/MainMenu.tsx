@@ -1,16 +1,21 @@
-import {Image, ScrollView, StyleSheet, Text, useWindowDimensions} from "react-native";
+import {Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions} from "react-native";
 import {ProductWidget} from "@/components/ProductWidget";
 import { XStack, YStack } from "@/components/View";
 import { H1, H3 } from "@/rn-reusables/ui/typography";
 import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from "@gorhom/bottom-sheet";
 import { useCallback } from "react";
 import { Separator } from "@/rn-reusables/ui/separator";
-import { useProductState } from "@/state/Product";
+import { Size, useProductState } from "@/state/Product";
+import { MediumCup } from "@/components/icons/MediumCup";
+import { SmallCup } from "@/components/icons/SmallCup";
+import { LargeCup } from "@/components/icons/LargeCup";
+import { CupWrapper } from "@/components/CupWrapper";
 
 export default function Menu() {
 	// TODO add dynamic rendering for products
 	const allProducts = useProductState(state => state.allProducts)
 	const currProduct = useProductState(state => state.currentProduct)
+	const userResponses = useProductState(state => state.userResponses)
 	const { width } = useWindowDimensions()
 	// Everytime currProduct changes, this function is run with the
 	// item page(BottomSheet) object itself passed as a parameter.
@@ -31,7 +36,7 @@ export default function Menu() {
 			/>
 		),
 		[]
-	)
+	) 
 	
 	return (
 		<>
@@ -88,7 +93,16 @@ export default function Menu() {
 						<H3>Size</H3>
 						<Separator style={[{width: width - 50}, styles.bottomSheetSeparator]} />
 						<XStack style={styles.sizeSelection}>
-							<Image 
+							<CupWrapper size="small">
+								<SmallCup width={50} height={42} />
+							</CupWrapper>
+							<CupWrapper size="medium">
+								<MediumCup width={50} height={45} />
+							</CupWrapper>
+							<CupWrapper size="large">
+								<LargeCup width={50} height={50} />
+							</CupWrapper>
+							{/* <Image 
 								source={require("../../assets/images/small-cup.png")}    
 								style={{
 									width: 50,
@@ -100,7 +114,7 @@ export default function Menu() {
 								source={require("../../assets/images/medium-cup.png")}    
 								style={{
 									width: 50,
-									height: 59,
+									height: 60,
 									resizeMode: "contain"
 								}}
 							/>
@@ -108,11 +122,11 @@ export default function Menu() {
 								source={require("../../assets/images/large-cup.png")}    
 								style={{
 									width: 50,
-									height: 64,
+									height: 65,
 									resizeMode: "contain",
 									marginBottom: 0
 								}}
-							/>
+							/> */}
 						</XStack>
 					</YStack>
 
@@ -151,6 +165,6 @@ const styles = StyleSheet.create({
 		alignItems: "flex-end", 
 		justifyContent: "center", 
 		paddingVertical: 10, 
-		gap: 30
-	},
+		gap: 40
+	}
 })

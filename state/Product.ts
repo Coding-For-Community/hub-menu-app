@@ -1,9 +1,9 @@
 import { create } from "zustand/react";
+import {v4 as uuidv4} from 'uuid';
 
-/** Stores data for one product, including what options the user has selected. */
-export interface ProductData {
-    name: string,
-    type: ProductType,
+export interface ProductSchema {
+    name: string
+    type: ProductType
     options: Option[]
 }
 
@@ -11,26 +11,40 @@ export enum ProductType {
     HOT_DRINK, COLD_DRINK, SEASONAL_SPECIAL
 }
 
-/** A configuration option(ice amount, sugar amount, etc.) for a product. */
 export interface Option {
-    name: string,
-    choices: string[],
-    currentChoice: string
+    name: string
+    uuid: string
+    choices: string[]
 }
 
-/** Represents the current "state" of products on the hub menu.  */
+export function createOption(name: string, choices: string[]): Option {
+    return { name, choices, uuid: uuidv4() }
+}
+
+export type Size = "small" | "medium" | "large"
+
+/** An interface that maps the uuid of a question to the user's response. */
+export interface UserResponses {
+    size: Size
+    [optionUuid: string]: string
+}
+
 export interface ProductState {
-    currentProduct: ProductData | null,
-    allProducts: ProductData[],
-    setCurrentProduct: (product: ProductData | null) => void,
-    addProduct: (product: ProductData) => void,
-    loadProducts: (products: ProductData[]) => void
+    currentProduct: ProductSchema | null,
+    allProducts: ProductSchema[],
+    userResponses: UserResponses,
+    setCurrentProduct: (product: ProductSchema | null) => void,
+    addProduct: (product: ProductSchema) => void,
+    loadState: (products: ProductSchema[]) => void,
+    addUserResponse: (optionUUID: string, response: string) => void,
+    setSize: (size: Size) => void
 }
 
 // TODO see if using get() in updating state works
 export const useProductState = create<ProductState>((set, get) => ({
     currentProduct: null,
     allProducts: [],
+    userResponses: { size: "large" },
     setCurrentProduct: (product) => {
         console.log("product being set: " + JSON.stringify(product))
         set({ currentProduct: product })
@@ -38,5 +52,15 @@ export const useProductState = create<ProductState>((set, get) => ({
     addProduct: (product) => set({ 
         allProducts: get().allProducts.concat(product)
     }),
-    loadProducts: (products) => set({ allProducts: products })
+    loadState: (products) => set({ 
+        allProducts: products,
+        currentProduct: null, 
+        userResponses: { size: "large" }
+    }),
+    addUserResponse: (uuid, response) => set({ 
+        userResponses: {...get().userResponses, [uuid]: response } 
+    }),
+    setSize: size => set({
+        userResponses: {...get().userResponses, size } 
+    })
 }))
