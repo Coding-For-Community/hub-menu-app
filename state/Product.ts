@@ -44,15 +44,20 @@ export interface ProductState {
 
 export const useProductState = create<ProductState>((set, get) => ({
     currentProduct: null,
-    allProducts: [],
+    allProducts: [DUMMY_PRODUCT],
     userResponses: { size: "large" },
     setCurrentProduct: (product) => {
         console.log("product being set: " + JSON.stringify(product))
         set({ currentProduct: product })
     },
-    addProduct: (product) => set({ 
-        allProducts: get().allProducts.concat(product)
-    }),
+    addProduct: (product) => {
+        const currentProducts = get().allProducts
+        if (currentProducts.indexOf(product) != -1) {
+            console.error("Product already added")
+        } else {
+            set({ allProducts: currentProducts.concat(product) })
+        }
+    },
     loadState: (products) => set({ 
         allProducts: products,
         currentProduct: null, 
@@ -65,3 +70,13 @@ export const useProductState = create<ProductState>((set, get) => ({
         userResponses: {...get().userResponses, size } 
     })
 }))
+
+/** TODO remove this after debugging is done */
+export const DUMMY_PRODUCT = {
+    name: "latte",
+    type: ProductType.COLD_DRINK,
+    hasSizeOptions: true,
+    questions: [
+        createQuestion("Fruit", ["Orange", "Banana", "Apple"], 0)
+    ]
+}

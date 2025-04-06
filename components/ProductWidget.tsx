@@ -2,16 +2,7 @@ import { RefObject, memo, useMemo, useState } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { YStack } from "./View";
 import { Text } from "@/rn-reusables/ui/text";
-import { ProductType, createQuestion, useProductState } from "@/state/Product";
-
-const DUMMY_PRODUCT = {
-    name: "latte",
-    type: ProductType.COLD_DRINK,
-    hasSizeOptions: true,
-    questions: [
-        createQuestion("Fruit", ["Orange", "Banana", "Apple"], 0)
-    ]
-}
+import { DUMMY_PRODUCT, ProductType, createQuestion, useProductState } from "@/state/Product";
 
 export function ProductWidget() {
     const setCurrProduct = useProductState(state => state.setCurrentProduct)

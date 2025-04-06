@@ -17,6 +17,7 @@ export default function Menu() {
 	const allProducts = useProductState(state => state.allProducts)
 	const currProduct = useProductState(state => state.currentProduct)
 	const userResponses = useProductState(state => state.userResponses)
+	const setCurrentProduct = useProductState(state => state.setCurrentProduct)
 	const { width } = useWindowDimensions()
 	// Everytime currProduct changes, this function is run with the
 	// item page(BottomSheet) object itself passed as a parameter.
@@ -78,6 +79,7 @@ export default function Menu() {
 				index={-1} 
 				enablePanDownToClose 
 				backdropComponent={backdropRenderFunction}
+				onClose={() => setCurrentProduct(null)}
 			>
 				<BottomSheetView>
 					<YStack style={{alignItems: "center"}}>
