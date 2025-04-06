@@ -32,11 +32,8 @@ export const useProductState = create<ProductState>((set, get) => ({
     currentProduct: null,
     allProducts: [],
     setCurrentProduct: (product) => {
-        if (false) { //(product != null && get().allProducts.indexOf(product) == -1) {
-            console.error("Invalid product registered(not present within ")
-        } else {
-            set({ currentProduct: product })
-        }
+        console.log("product being set: " + JSON.stringify(product))
+        set({ currentProduct: product })
     },
     addProduct: (product) => set({ 
         allProducts: get().allProducts.concat(product)

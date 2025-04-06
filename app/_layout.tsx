@@ -9,6 +9,7 @@ import { NAV_THEME } from '~/rn-reusables/lib/constants';
 import { useColorScheme } from '~/rn-reusables/lib/useColorScheme'
 import {verifyInstallation} from 'nativewind';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -53,13 +54,15 @@ export default function RootLayout() {
   // While ThemeProvider allows useTheme() to return the proper theme within components.
   return (
     <GestureHandlerRootView> 
-      <ThemeProvider value={LIGHT_THEME}>
-        <StatusBar style={'light'} />
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
-          <Stack.Screen name="+not-found"/>
-        </Stack>
-      </ThemeProvider>
+      <BottomSheetModalProvider>
+        <ThemeProvider value={LIGHT_THEME}>
+          <StatusBar style={'light'} />
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
+            <Stack.Screen name="+not-found"/>
+          </Stack>
+        </ThemeProvider>
+      </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );
 }

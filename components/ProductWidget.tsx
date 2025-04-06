@@ -28,27 +28,3 @@ export function ProductWidget() {
         </YStack>
     )
 }
-
-const SheetContents = memo(SheetContentsImpl)
-function SheetContentsImpl(args: {closeModal: () => void}) {
-    return (
-        <View>
-            <Text>Tbd...</Text>
-            <Button onPress={args.closeModal}></Button>
-        </View>
-    )
-}
-
-const styles = StyleSheet.create({
-    modal: {
-        padding: 20,
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 10
-    },
-    productImg: { 
-        width: 120, 
-        height: 120, 
-        borderRadius: 60 
-    }
-})

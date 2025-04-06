@@ -1,31 +1,45 @@
 import {Image, ScrollView, SectionList, StyleSheet, Text, View} from "react-native";
 import {ProductWidget} from "@/components/ProductWidget";
 import { XStack, YStack } from "@/components/View";
-import { H3 } from "@/rn-reusables/ui/typography";
-import BottomSheet, { BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from "@gorhom/bottom-sheet";
+import { H1, H3 } from "@/rn-reusables/ui/typography";
+import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from "@gorhom/bottom-sheet";
 import { ForwardedRef, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Separator } from "@/rn-reusables/ui/separator";
 import { useProductState } from "@/state/Product";
 
 export default function Menu() {
-	// stores a ref of the actual HTML/react element.
-	const measuredRef = useCallback((thisElement: BottomSheetModal | null) => {
-		console.log("ref being triggered")
-		if (currProduct == null) {
-			thisElement?.close()
-		} else {
-			thisElement?.expand()
-		}
-		return true
-	}, [])
-    const snapPoints = useMemo(() => ['25%', '50%', '70%'], []);
+	// TODO add dynamic rendering for products
 	const allProducts = useProductState(state => state.allProducts)
 	const currProduct = useProductState(state => state.currentProduct)
-	const setCurrProduct = useProductState(state => state.setCurrentProduct)
-	console.log("current product: " + currProduct)
-
+	// Everytime currProduct changes, this function is run with the
+	// item page(BottomSheet) object itself passed as a parameter.
+	const itemPageCloser = useCallback((itemPage: BottomSheetModal | null) => {
+		if (currProduct == null) {
+			itemPage?.close()
+		} else {
+			itemPage?.expand()
+		}
+	}, [currProduct])
+	const backdropRenderFunction = useCallback(
+		(props: BottomSheetBackdropProps) => (
+			<BottomSheetBackdrop 
+				{...props}
+				opacity={0.5} 
+				appearsOnIndex={0}
+				disappearsOnIndex={-1}
+			/>
+		),
+		[]
+	)
+	
 	return (
-		<BottomSheetModalProvider>
+		<>
+			<H1 style={{
+				marginLeft: 15,
+				marginTop: 10,
+				marginBottom: 10
+			}}>Order</H1>
+			<Separator />
 			<ScrollView>
 				<YStack style={styles.main}>
 					<YStack style={styles.section}>
@@ -50,27 +64,37 @@ export default function Menu() {
 					</YStack>
 				</YStack>
 			</ScrollView>
-			<BottomSheet ref={measuredRef} enablePanDownToClose>
-				<BottomSheetView style={{alignItems: "center"}} >
-					<Image 
-						source={require("../../assets/images/coffee.jpeg")}    
-						style={{
-							width: 120,
-							height: 120,
-							borderRadius: 60
-						}}
-					/>
-					<Text>Latte</Text>
-					<Text>50 trillion Callories LMAO</Text>
-					<Separator style={{marginVertical: 4}} />
+			<BottomSheet 
+				ref={itemPageCloser} 
+				index={-1} 
+				enablePanDownToClose 
+				backdropComponent={backdropRenderFunction}
+			>
+				<BottomSheetView>
+					<YStack style={{alignItems: "center"}}>
+						<Image 
+							source={require("../../assets/images/coffee.jpeg")}    
+							style={{
+								width: 120,
+								height: 120,
+								borderRadius: 60
+							}}
+						/>
+						<Text>Latte</Text>
+						<Text>50 trillion Callories LMAO</Text>
+						<Separator style={{marginVertical: 4}} />
+					</YStack>
 				</BottomSheetView>
 			</BottomSheet>
-		</BottomSheetModalProvider>
+		</>
 	)
 }
 
 const styles = StyleSheet.create({
 	main: {},
+	fadedMain: {
+
+	},
 	section: {
 		justifyContent: "flex-start",
 		alignItems: "flex-start",
