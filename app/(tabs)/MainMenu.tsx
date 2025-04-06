@@ -1,9 +1,9 @@
-import {Image, ScrollView, SectionList, StyleSheet, Text, View} from "react-native";
+import {Image, ScrollView, StyleSheet, Text, useWindowDimensions} from "react-native";
 import {ProductWidget} from "@/components/ProductWidget";
 import { XStack, YStack } from "@/components/View";
 import { H1, H3 } from "@/rn-reusables/ui/typography";
 import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from "@gorhom/bottom-sheet";
-import { ForwardedRef, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback } from "react";
 import { Separator } from "@/rn-reusables/ui/separator";
 import { useProductState } from "@/state/Product";
 
@@ -11,6 +11,7 @@ export default function Menu() {
 	// TODO add dynamic rendering for products
 	const allProducts = useProductState(state => state.allProducts)
 	const currProduct = useProductState(state => state.currentProduct)
+	const { width } = useWindowDimensions()
 	// Everytime currProduct changes, this function is run with the
 	// item page(BottomSheet) object itself passed as a parameter.
 	const itemPageCloser = useCallback((itemPage: BottomSheetModal | null) => {
@@ -36,12 +37,12 @@ export default function Menu() {
 		<>
 			<H1 style={{
 				marginLeft: 15,
-				marginTop: 10,
+				marginTop: 40,
 				marginBottom: 10
 			}}>Order</H1>
 			<Separator />
 			<ScrollView>
-				<YStack style={styles.main}>
+				<YStack>
 					<YStack style={styles.section}>
 						<H3 style={styles.header}>Seasonal Specials</H3>
 						<ScrollView horizontal>
@@ -75,15 +76,47 @@ export default function Menu() {
 						<Image 
 							source={require("../../assets/images/coffee.jpeg")}    
 							style={{
-								width: 120,
-								height: 120,
-								borderRadius: 60
+								width: 200,
+								height: 200,
+								borderRadius: 100
 							}}
 						/>
-						<Text>Latte</Text>
-						<Text>50 trillion Callories LMAO</Text>
-						<Separator style={{marginVertical: 4}} />
+						<Text style={{fontSize: 30}}>Latte</Text>
+						<Text style={{fontSize: 30, fontWeight: 200}}>Calories: 10000</Text>
 					</YStack>
+					<YStack style={{paddingHorizontal: 25, marginBottom: 3}}>
+						<H3>Size</H3>
+						<Separator style={[{width: width - 50}, styles.bottomSheetSeparator]} />
+						<XStack style={styles.sizeSelection}>
+							<Image 
+								source={require("../../assets/images/small-cup.png")}    
+								style={{
+									width: 50,
+									height: 50,
+									resizeMode: "contain"
+								}}
+							/>
+							<Image 
+								source={require("../../assets/images/medium-cup.png")}    
+								style={{
+									width: 50,
+									height: 59,
+									resizeMode: "contain"
+								}}
+							/>
+							<Image 
+								source={require("../../assets/images/large-cup.png")}    
+								style={{
+									width: 50,
+									height: 64,
+									resizeMode: "contain",
+									marginBottom: 0
+								}}
+							/>
+						</XStack>
+					</YStack>
+
+
 				</BottomSheetView>
 			</BottomSheet>
 		</>
@@ -91,10 +124,6 @@ export default function Menu() {
 }
 
 const styles = StyleSheet.create({
-	main: {},
-	fadedMain: {
-
-	},
 	section: {
 		justifyContent: "flex-start",
 		alignItems: "flex-start",
@@ -111,5 +140,17 @@ const styles = StyleSheet.create({
 	header: {
 		marginLeft: 15
 	},
-	item: {},
+	bottomSheetSeparator: { 
+		marginVertical: 4, 
+		height: 4, 
+		backgroundColor: "lightskyblue", 
+		opacity: 0.3, 
+		borderRadius: 1
+	},
+	sizeSelection: {
+		alignItems: "flex-end", 
+		justifyContent: "center", 
+		paddingVertical: 10, 
+		gap: 30
+	},
 })
