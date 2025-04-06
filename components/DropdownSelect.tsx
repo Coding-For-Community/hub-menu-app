@@ -12,6 +12,7 @@ import {
 
 export function DropdownSelect(args: {question: Question}) {
     const addUserResponse = useProductState(state => state.addUserResponse)
+    const userResponses = useProductState(state => state.userResponses)
     const insets = useSafeAreaInsets();
 	const contentInsets = {
 		top: insets.top,
@@ -19,11 +20,11 @@ export function DropdownSelect(args: {question: Question}) {
 		left: 12,
 		right: 12,
 	}; 
-    const defaultChoice = args.question.choices[args.question.defaultChoiceIdx]
+    const currentChoice = userResponses[args.question.uuid] ?? args.question.choices[args.question.defaultChoiceIdx]
 
     return (
         <Select 
-            defaultValue={{ label: defaultChoice, value: defaultChoice }} 
+            defaultValue={{ label: currentChoice, value: currentChoice }} 
             onValueChange={data => {
                 if (data != null) addUserResponse(args.question.uuid, data.label)
             }}

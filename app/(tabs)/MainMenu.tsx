@@ -22,11 +22,7 @@ export default function Menu() {
 	// Everytime currProduct changes, this function is run with the
 	// item page(BottomSheet) object itself passed as a parameter.
 	const itemPageCloser = useCallback((itemPage: BottomSheetModal | null) => {
-		if (currProduct == null) {
-			itemPage?.close()
-		} else {
-			itemPage?.expand()
-		}
+		if (currProduct != null) itemPage?.expand()
 	}, [currProduct])
 	const backdropRenderFunction = useCallback(
 		(props: BottomSheetBackdropProps) => (
