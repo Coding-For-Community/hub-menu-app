@@ -25,7 +25,8 @@ const styles = StyleSheet.create({
 		width: 70,
 		height: 70,
 		display: "flex",
-		alignItems: "center"
+		alignItems: "center",
+        justifyContent: "center"
 	},
 	selectedCup: {
 		backgroundColor: "rgba(135,206,250, 0.4)", 

@@ -2,19 +2,22 @@ import { RefObject, memo, useMemo, useState } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { YStack } from "./View";
 import { Text } from "@/rn-reusables/ui/text";
-import { Button } from "@/rn-reusables/ui/button";
-import BottomSheet, { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
-import { ProductType, useProductState } from "@/state/Product";
+import { ProductType, createQuestion, useProductState } from "@/state/Product";
+
+const DUMMY_PRODUCT = {
+    name: "latte",
+    type: ProductType.COLD_DRINK,
+    hasSizeOptions: true,
+    questions: [
+        createQuestion("Fruit", ["Orange", "Banana", "Apple"], 0)
+    ]
+}
 
 export function ProductWidget() {
     const setCurrProduct = useProductState(state => state.setCurrentProduct)
     return (
         <YStack 
-            onPress={() => setCurrProduct({
-                name: "latte",
-                type: ProductType.COLD_DRINK,
-                options: []
-            })}    
+            onPress={() => setCurrProduct(DUMMY_PRODUCT)}    
             style={{ alignItems: "center" }}
         >
             <Image 

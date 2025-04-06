@@ -10,6 +10,7 @@ import { MediumCup } from "@/components/icons/MediumCup";
 import { SmallCup } from "@/components/icons/SmallCup";
 import { LargeCup } from "@/components/icons/LargeCup";
 import { CupWrapper } from "@/components/CupWrapper";
+import { DropdownSelect } from "@/components/DropdownSelect";
 
 export default function Menu() {
 	// TODO add dynamic rendering for products
@@ -36,7 +37,9 @@ export default function Menu() {
 			/>
 		),
 		[]
-	) 
+	)
+
+	console.log("User responses: " + JSON.stringify(userResponses))
 	
 	return (
 		<>
@@ -90,47 +93,30 @@ export default function Menu() {
 						<Text style={{fontSize: 30, fontWeight: 200}}>Calories: 10000</Text>
 					</YStack>
 					<YStack style={{paddingHorizontal: 25, marginBottom: 3}}>
-						<H3>Size</H3>
-						<Separator style={[{width: width - 50}, styles.bottomSheetSeparator]} />
-						<XStack style={styles.sizeSelection}>
-							<CupWrapper size="small">
-								<SmallCup width={50} height={42} />
-							</CupWrapper>
-							<CupWrapper size="medium">
-								<MediumCup width={50} height={45} />
-							</CupWrapper>
-							<CupWrapper size="large">
-								<LargeCup width={50} height={50} />
-							</CupWrapper>
-							{/* <Image 
-								source={require("../../assets/images/small-cup.png")}    
-								style={{
-									width: 50,
-									height: 50,
-									resizeMode: "contain"
-								}}
-							/>
-							<Image 
-								source={require("../../assets/images/medium-cup.png")}    
-								style={{
-									width: 50,
-									height: 60,
-									resizeMode: "contain"
-								}}
-							/>
-							<Image 
-								source={require("../../assets/images/large-cup.png")}    
-								style={{
-									width: 50,
-									height: 65,
-									resizeMode: "contain",
-									marginBottom: 0
-								}}
-							/> */}
-						</XStack>
+						{ // boolean && (stuff) renders (stuff) only if the boolean is true.
+							currProduct?.hasSizeOptions && 
+							<>
+								<H3>Size</H3>
+								<Separator style={[{width: width - 50}, styles.separator]} />
+								<XStack style={styles.sizeSelection}>
+									<CupWrapper size="small">
+										<SmallCup width={50} height={42} />
+									</CupWrapper>
+									<CupWrapper size="medium">
+										<MediumCup width={50} height={45} />
+									</CupWrapper>
+									<CupWrapper size="large">
+										<LargeCup width={50} height={50} />
+									</CupWrapper>
+								</XStack>
+							</>
+						}
+						<H3>Customize</H3>
+						<Separator style={[{width: width - 50}, styles.separator]} />
+						{
+							currProduct?.questions?.map(question => <DropdownSelect question={question} />)
+						}
 					</YStack>
-
-
 				</BottomSheetView>
 			</BottomSheet>
 		</>
@@ -154,7 +140,7 @@ const styles = StyleSheet.create({
 	header: {
 		marginLeft: 15
 	},
-	bottomSheetSeparator: { 
+	separator: { 
 		marginVertical: 4, 
 		height: 4, 
 		backgroundColor: "lightskyblue", 

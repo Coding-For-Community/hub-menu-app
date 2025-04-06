@@ -9,7 +9,7 @@ import { NAV_THEME } from '~/rn-reusables/lib/constants';
 import { useColorScheme } from '~/rn-reusables/lib/useColorScheme'
 import {verifyInstallation} from 'nativewind';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { PortalHost } from '@rn-primitives/portal'
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -51,10 +51,11 @@ export default function RootLayout() {
   setColorScheme("light");
 
   // GestureHandlerRootView allows for react-native-bottom-sheet to work,
-  // While ThemeProvider allows useTheme() to return the proper theme within components.
+  // while ThemeProvider allows useTheme() to return the proper theme within components,
+  // and PortalHost enables dropdown support.
   return (
-    <GestureHandlerRootView> 
-      <BottomSheetModalProvider>
+    <>
+      <GestureHandlerRootView> 
         <ThemeProvider value={LIGHT_THEME}>
           <StatusBar style={'light'} />
           <Stack>
@@ -62,8 +63,10 @@ export default function RootLayout() {
             <Stack.Screen name="+not-found"/>
           </Stack>
         </ThemeProvider>
-      </BottomSheetModalProvider>
-    </GestureHandlerRootView>
+      </GestureHandlerRootView>
+
+      <PortalHost />
+    </>
   );
 }
 

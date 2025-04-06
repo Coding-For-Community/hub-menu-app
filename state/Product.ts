@@ -1,24 +1,26 @@
 import { create } from "zustand/react";
-import {v4 as uuidv4} from 'uuid';
+import GenUUID from "react-native-uuid"
 
 export interface ProductSchema {
     name: string
-    type: ProductType
-    options: Option[]
+    type: ProductType,
+    hasSizeOptions: boolean,
+    questions: Question[]
 }
 
 export enum ProductType {
     HOT_DRINK, COLD_DRINK, SEASONAL_SPECIAL
 }
 
-export interface Option {
+export interface Question {
     name: string
     uuid: string
-    choices: string[]
+    choices: string[],
+    defaultChoiceIdx: number
 }
 
-export function createOption(name: string, choices: string[]): Option {
-    return { name, choices, uuid: uuidv4() }
+export function createQuestion(name: string, choices: string[], defaultChoiceIdx: number): Question {
+    return { name, uuid: GenUUID.v4(), choices, defaultChoiceIdx }
 }
 
 export type Size = "small" | "medium" | "large"
@@ -26,7 +28,7 @@ export type Size = "small" | "medium" | "large"
 /** An interface that maps the uuid of a question to the user's response. */
 export interface UserResponses {
     size: Size
-    [optionUuid: string]: string
+    [questionUUID: string]: string
 }
 
 export interface ProductState {
@@ -40,7 +42,6 @@ export interface ProductState {
     setSize: (size: Size) => void
 }
 
-// TODO see if using get() in updating state works
 export const useProductState = create<ProductState>((set, get) => ({
     currentProduct: null,
     allProducts: [],
