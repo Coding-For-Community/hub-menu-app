@@ -2,13 +2,14 @@ import { RefObject, memo, useMemo, useState } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { YStack } from "./View";
 import { Text } from "@/rn-reusables/ui/text";
-import { DUMMY_PRODUCT, ProductType, createQuestion, useProductState } from "@/state/Product";
+import { useProductState } from "@/state/ProductState";
+import { DUMMY_PRODUCT } from "@/state/Product";
 
-export function ProductWidget() {
-    const setCurrProduct = useProductState(state => state.setCurrentProduct)
+export function DemoProductWidget() {
+    const startOrder = useProductState(state => state.startOrder)
     return (
         <YStack 
-            onPress={() => setCurrProduct(DUMMY_PRODUCT)}    
+            onPress={() => startOrder(DUMMY_PRODUCT)}    
             style={{ alignItems: "center" }}
         >
             <Image 

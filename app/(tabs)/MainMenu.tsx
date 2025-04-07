@@ -1,11 +1,10 @@
 import {Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions} from "react-native";
-import {ProductWidget} from "@/components/ProductWidget";
+import {DemoProductWidget} from "@/components/ProductWidget";
 import { XStack, YStack } from "@/components/View";
 import { H1, H3 } from "@/rn-reusables/ui/typography";
 import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView, BottomSheetView } from "@gorhom/bottom-sheet";
 import { useCallback } from "react";
 import { Separator } from "@/rn-reusables/ui/separator";
-import { Size, useProductState } from "@/state/Product";
 import { MediumCup } from "@/components/icons/MediumCup";
 import { SmallCup } from "@/components/icons/SmallCup";
 import { LargeCup } from "@/components/icons/LargeCup";
@@ -13,14 +12,14 @@ import { CupWrapper } from "@/components/CupWrapper";
 import { DropdownSelect } from "@/components/DropdownSelect";
 import { Button } from "@/rn-reusables/ui/button";
 import { Link, useRouter } from "expo-router";
+import { useProductState } from "@/state/ProductState";
 
 export default function Menu() {
 	// TODO add dynamic rendering for products
 	const allProducts = useProductState(state => state.allProducts)
-	const currProduct = useProductState(state => state.currentProduct)
-	const userResponses = useProductState(state => state.currentOrder)
-	const addToCart = useProductState(state => state.addToCart)
-	const setCurrentProduct = useProductState(state => state.setCurrentProduct)
+	const currProduct = useProductState(state => state.productToOrder)
+	const addToCart = useProductState(state => state.addOrderToCart)
+	const clearLastOrder = useProductState(state => state.clearLastOrder)
 	const { width } = useWindowDimensions()
 	// Everytime currProduct changes, this function is run with the
 	// item page(BottomSheet) object itself passed as a parameter.
@@ -39,8 +38,6 @@ export default function Menu() {
 		[]
 	)
 	const router = useRouter()
-
-	console.log("User responses: " + JSON.stringify(userResponses))
 	
 	return (
 		<>
@@ -56,10 +53,10 @@ export default function Menu() {
 						<H3 style={styles.header}>Seasonal Specials</H3>
 						<ScrollView horizontal>
 							<XStack style={styles.sectionRow}>
-								<ProductWidget />
-								<ProductWidget />
-								<ProductWidget />
-								<ProductWidget />
+								<DemoProductWidget />
+								<DemoProductWidget />
+								<DemoProductWidget />
+								<DemoProductWidget />
 							</XStack>
 						</ScrollView>
 					</YStack>
@@ -67,8 +64,8 @@ export default function Menu() {
 						<H3 style={styles.header}>Seasonal Specials</H3>
 						<ScrollView horizontal={true}>
 							<XStack style={styles.sectionRow}>
-								<ProductWidget />
-								<ProductWidget />
+								<DemoProductWidget />
+								<DemoProductWidget />
 							</XStack>
 						</ScrollView>
 					</YStack>
@@ -79,7 +76,7 @@ export default function Menu() {
 				index={-1} 
 				enablePanDownToClose 
 				backdropComponent={backdropRenderFunction}
-				onClose={() => setCurrentProduct(null)}
+				onClose={clearLastOrder}
 			>
 				<BottomSheetScrollView>
 					<YStack style={{alignItems: "center"}}>

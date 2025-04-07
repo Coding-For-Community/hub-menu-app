@@ -1,4 +1,3 @@
-import { Question, useProductState } from "@/state/Product";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
 	Select,
@@ -9,10 +8,12 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/rn-reusables/ui/select';
+import { useProductState } from "@/state/ProductState";
+import { Question } from "@/state/Product";
 
 export function DropdownSelect(args: {question: Question}) {
-    const addUserResponse = useProductState(state => state.addUserResponse)
-    const userResponses = useProductState(state => state.currentOrder)
+    const addCustomization = useProductState(state => state.addCustomization)
+    const customizations = useProductState(state => state.customizationOfOrder)
     const insets = useSafeAreaInsets();
 	const contentInsets = {
 		top: insets.top,
@@ -20,13 +21,13 @@ export function DropdownSelect(args: {question: Question}) {
 		left: 12,
 		right: 12,
 	}; 
-    const currentChoice = userResponses[args.question.uuid] ?? args.question.choices[args.question.defaultChoiceIdx]
+    const currentChoice = customizations[args.question.uuid] ?? args.question.choices[args.question.defaultChoiceIdx]
 
     return (
         <Select 
             defaultValue={{ label: currentChoice, value: currentChoice }} 
             onValueChange={data => {
-                if (data != null) addUserResponse(args.question.uuid, data.label)
+                if (data != null) addCustomization(args.question.uuid, data.label)
             }}
             style={{marginVertical: 10}}
         >

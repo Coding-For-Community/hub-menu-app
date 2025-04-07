@@ -1,4 +1,4 @@
-import { useProductState } from "@/state/Product";
+import { useProductState } from "@/state/Archive";
 import {Tabs} from "expo-router";
 
 export default function TabLayout() {

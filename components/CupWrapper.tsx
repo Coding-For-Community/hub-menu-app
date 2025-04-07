@@ -1,17 +1,15 @@
-import { Size, useProductState } from "@/state/Product";
+import { Size } from "@/state/ProductOrder";
+import { useProductState } from "@/state/ProductState";
 import { ReactNode } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 
 
 export function CupWrapper(args: {size: Size, children: ReactNode}) {
-    const userResponses = useProductState(state => state.currentOrder)
+    const size = useProductState(state => state.sizeOfOrder)
     const setSize = useProductState(state => state.setSize)
     return (
         <TouchableOpacity 
-            style={[
-                styles.cup, 
-                userResponses.size === args.size ? styles.selectedCup : null
-            ]}
+            style={[styles.cup, size === args.size ? styles.selectedCup : null]}
             onPress={() => setSize(args.size)}
         >{args.children}</TouchableOpacity>
     )
