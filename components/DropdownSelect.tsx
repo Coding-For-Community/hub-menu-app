@@ -12,7 +12,7 @@ import {
 
 export function DropdownSelect(args: {question: Question}) {
     const addUserResponse = useProductState(state => state.addUserResponse)
-    const userResponses = useProductState(state => state.userResponses)
+    const userResponses = useProductState(state => state.currentOrder)
     const insets = useSafeAreaInsets();
 	const contentInsets = {
 		top: insets.top,

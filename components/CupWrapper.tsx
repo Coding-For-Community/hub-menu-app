@@ -4,7 +4,7 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 
 
 export function CupWrapper(args: {size: Size, children: ReactNode}) {
-    const userResponses = useProductState(state => state.userResponses)
+    const userResponses = useProductState(state => state.currentOrder)
     const setSize = useProductState(state => state.setSize)
     return (
         <TouchableOpacity 

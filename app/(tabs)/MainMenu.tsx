@@ -2,7 +2,7 @@ import {Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, useWindowDi
 import {ProductWidget} from "@/components/ProductWidget";
 import { XStack, YStack } from "@/components/View";
 import { H1, H3 } from "@/rn-reusables/ui/typography";
-import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView, BottomSheetView } from "@gorhom/bottom-sheet";
 import { useCallback } from "react";
 import { Separator } from "@/rn-reusables/ui/separator";
 import { Size, useProductState } from "@/state/Product";
@@ -11,12 +11,15 @@ import { SmallCup } from "@/components/icons/SmallCup";
 import { LargeCup } from "@/components/icons/LargeCup";
 import { CupWrapper } from "@/components/CupWrapper";
 import { DropdownSelect } from "@/components/DropdownSelect";
+import { Button } from "@/rn-reusables/ui/button";
+import { Link, useRouter } from "expo-router";
 
 export default function Menu() {
 	// TODO add dynamic rendering for products
 	const allProducts = useProductState(state => state.allProducts)
 	const currProduct = useProductState(state => state.currentProduct)
-	const userResponses = useProductState(state => state.userResponses)
+	const userResponses = useProductState(state => state.currentOrder)
+	const addToCart = useProductState(state => state.addToCart)
 	const setCurrentProduct = useProductState(state => state.setCurrentProduct)
 	const { width } = useWindowDimensions()
 	// Everytime currProduct changes, this function is run with the
@@ -35,6 +38,7 @@ export default function Menu() {
 		),
 		[]
 	)
+	const router = useRouter()
 
 	console.log("User responses: " + JSON.stringify(userResponses))
 	
@@ -77,7 +81,7 @@ export default function Menu() {
 				backdropComponent={backdropRenderFunction}
 				onClose={() => setCurrentProduct(null)}
 			>
-				<BottomSheetView>
+				<BottomSheetScrollView>
 					<YStack style={{alignItems: "center"}}>
 						<Image 
 							source={require("../../assets/images/coffee.jpeg")}    
@@ -90,7 +94,7 @@ export default function Menu() {
 						<Text style={{fontSize: 30}}>Latte</Text>
 						<Text style={{fontSize: 30, fontWeight: 200}}>Calories: 10000</Text>
 					</YStack>
-					<YStack style={{paddingHorizontal: 25, marginBottom: 3}}>
+					<YStack style={{paddingHorizontal: 25, marginBottom: 55}}>
 						{ // boolean && (stuff) renders (stuff) only if the boolean is true.
 							currProduct?.hasSizeOptions && 
 							<>
@@ -115,7 +119,16 @@ export default function Menu() {
 							currProduct?.questions?.map(question => <DropdownSelect question={question} />)
 						}
 					</YStack>
-				</BottomSheetView>
+				</BottomSheetScrollView>
+				<Button 
+					style={[styles.addToCartBtn, {width: width - 50}]}
+					onPress={() => {
+						addToCart()
+						router.navigate("/(tabs)/Cart")
+					}}
+				>
+					<Text style={{color: "white", fontSize: 15}}>Add to Cart</Text>
+				</Button>
 			</BottomSheet>
 		</>
 	)
@@ -150,5 +163,12 @@ const styles = StyleSheet.create({
 		justifyContent: "center", 
 		paddingVertical: 10, 
 		gap: 40
+	},
+	addToCartBtn: {
+		backgroundColor: "blue", 
+		borderRadius: 60, 
+		position: "absolute", 
+		bottom: 10, 
+		left: 25
 	}
 })
