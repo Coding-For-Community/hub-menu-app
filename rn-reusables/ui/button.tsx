@@ -1,6 +1,6 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
-import { Pressable } from 'react-native';
+import { TouchableOpacity } from 'react-native'; // TODO see if Pressable or TouchableOpacity works better on mobile
 import { cn } from '@/rn-reusables/lib/utils';
 import { TextClassContext } from '@/rn-reusables/ui/text';
 
@@ -57,16 +57,16 @@ const buttonTextVariants = cva(
   }
 );
 
-type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable> &
+type ButtonProps = React.ComponentPropsWithoutRef<typeof TouchableOpacity> &
   VariantProps<typeof buttonVariants>;
 
-const Button = React.forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>(
+const Button = React.forwardRef<React.ElementRef<typeof TouchableOpacity>, ButtonProps>(
   ({ className, variant, size, ...props }, ref) => {
     return (
       <TextClassContext.Provider
         value={buttonTextVariants({ variant, size, className: 'web:pointer-events-none' })}
       >
-        <Pressable
+        <TouchableOpacity
           className={cn(
             props.disabled && 'opacity-50 web:pointer-events-none',
             buttonVariants({ variant, size, className })

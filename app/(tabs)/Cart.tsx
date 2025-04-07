@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Button } from "@/rn-reusables/ui/button";
 import { Text } from "@/rn-reusables/ui/text";
+import { PayingButton } from "@/components/PayingButton";
 
 
 export default function Cart() {
@@ -46,17 +47,16 @@ export default function Cart() {
 					<H3>$10.95</H3>
 				</XStack>
 
-				<Button 
-					style={{
-						backgroundColor: "skyblue",
-						width: 250,
-						marginTop: 20
-					}}
+				{/* <Button 
+					style={{backgroundColor: "skyblue", marginTop: 20, borderRadius: 50}}
+					onPress={() => setDatePickerOpen(true)}
 				>
-						<Text>Complete By: {date.getHours()}:{date.getMinutes()}</Text>
-				</Button>
+					<Text>Complete By: {date.getHours()}:{date.getMinutes()}</Text>
+				</Button> */}
 
-				<Button style={{backgroundColor: "blue", width: 250, marginLeft: 20}}><Text style={{color: "white"}}>Order</Text></Button>
+				<PayingButton bgColor="skyblue">Pay with credit/debit card</PayingButton>
+				<PayingButton bgColor="blue">Pay with student account</PayingButton>
+				<PayingButton bgColor="goldenrod">Pay with apple pay</PayingButton>
 			</YStack>
 
 			{
@@ -81,5 +81,10 @@ const styles = StyleSheet.create({
         marginLeft: 15,
         marginTop: 40,
         marginBottom: 10
-    }
+    },
+	bottomBtn: {
+		width: 250,
+		marginTop: 20,
+		borderRadius: 50
+	}
 })
