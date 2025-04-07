@@ -74,7 +74,7 @@ export const useProductState = create<ProductState>((set, get) => ({
     editOrder: (index) => {
         const state = get()
         if (index < 0 || index >= state.cart.length) {
-            console.error("EditOrder index out of range.")
+            console.error("editOrder index out of range.")
             return
         }
         const newCart = state.cart.slice(0, index).concat(state.cart.slice(index + 1))

@@ -11,7 +11,7 @@ import {
 import { useProductState } from "@/state/ProductState";
 import { Question } from "@/state/Product";
 
-export function DropdownSelect(args: {question: Question}) {
+export function QuestionDropdown(args: {question: Question}) {
     const addCustomization = useProductState(state => state.addCustomization)
     const customizations = useProductState(state => state.customizationOfOrder)
     const insets = useSafeAreaInsets();

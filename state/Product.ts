@@ -4,7 +4,8 @@ export interface Product {
     name: string
     type: ProductType
     hasSizeOptions: boolean
-    questions: Question[]
+    questions: Question[],
+    priceDollars: number
 }
 
 export enum ProductType {
@@ -23,11 +24,12 @@ export function createQuestion(name: string, choices: string[], defaultChoiceIdx
 }
 
 /** TODO remove this after debugging is done */
-export const DUMMY_PRODUCT = {
+export const DUMMY_PRODUCT: Product = {
     name: "latte",
     type: ProductType.COLD_DRINK,
     hasSizeOptions: true,
     questions: [
         createQuestion("Fruit", ["Orange", "Banana", "Apple"], 0)
-    ]
+    ],
+    priceDollars: 20.31
 }
