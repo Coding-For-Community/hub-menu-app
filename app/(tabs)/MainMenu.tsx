@@ -1,9 +1,9 @@
-import {Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions} from "react-native";
+import {Image, ScrollView, StyleSheet, Text, useWindowDimensions} from "react-native";
 import {DemoProductWidget} from "@/components/ProductWidget";
 import { XStack, YStack } from "@/components/View";
 import { H1, H3 } from "@/rn-reusables/ui/typography";
-import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView, BottomSheetView } from "@gorhom/bottom-sheet";
-import { useCallback } from "react";
+import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { useCallback, useEffect, useRef } from "react";
 import { Separator } from "@/rn-reusables/ui/separator";
 import { MediumCup } from "@/components/icons/MediumCup";
 import { SmallCup } from "@/components/icons/SmallCup";
@@ -11,7 +11,7 @@ import { LargeCup } from "@/components/icons/LargeCup";
 import { CupWrapper } from "@/components/CupWrapper";
 import { DropdownSelect } from "@/components/DropdownSelect";
 import { Button } from "@/rn-reusables/ui/button";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useProductState } from "@/state/ProductState";
 
 export default function Menu() {
@@ -21,11 +21,10 @@ export default function Menu() {
 	const addToCart = useProductState(state => state.addOrderToCart)
 	const clearLastOrder = useProductState(state => state.clearLastOrder)
 	const { width } = useWindowDimensions()
-	// Everytime currProduct changes, this function is run with the
-	// item page(BottomSheet) object itself passed as a parameter.
-	const itemPageCloser = useCallback((itemPage: BottomSheetModal | null) => {
-		if (currProduct != null) itemPage?.expand()
-	}, [currProduct])
+    const itemPageRef = useRef<BottomSheetModal>(null)
+    useEffect(() => {
+        if (currProduct != null) itemPageRef.current?.expand()
+    }, [currProduct, itemPageRef.current])
 	const backdropRenderFunction = useCallback(
 		(props: BottomSheetBackdropProps) => (
 			<BottomSheetBackdrop 
@@ -72,7 +71,7 @@ export default function Menu() {
 				</YStack>
 			</ScrollView>
 			<BottomSheet 
-				ref={itemPageCloser} 
+				ref={itemPageRef} 
 				index={-1} 
 				enablePanDownToClose 
 				backdropComponent={backdropRenderFunction}
@@ -113,7 +112,7 @@ export default function Menu() {
 						<H3>Customize</H3>
 						<Separator style={[{width: width - 50}, styles.separator]} />
 						{
-							currProduct?.questions?.map(question => <DropdownSelect question={question} />)
+							currProduct?.questions?.map((question, index) => <DropdownSelect question={question} key={index} />)
 						}
 					</YStack>
 				</BottomSheetScrollView>
@@ -121,6 +120,7 @@ export default function Menu() {
 					style={[styles.addToCartBtn, {width: width - 50}]}
 					onPress={() => {
 						addToCart()
+                        itemPageRef.current?.forceClose()
 						router.navigate("/(tabs)/Cart")
 					}}
 				>

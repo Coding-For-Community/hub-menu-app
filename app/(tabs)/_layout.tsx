@@ -1,8 +1,6 @@
-import { useProductState } from "@/state/Archive";
 import {Tabs} from "expo-router";
 
 export default function TabLayout() {
-	const currentProduct = useProductState(state => state.currentProduct)
 	return (
 		<Tabs>
 			<Tabs.Screen name="MainMenu" options={{title: "Order", headerShown: false}}/>

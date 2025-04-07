@@ -69,7 +69,7 @@ export const useProductState = create<ProductState>((set, get) => ({
             sizeOfOrder: "large",
             customizationOfOrder: {}
         })
-        console.log("cart: " + newCart)
+        console.log("cart: " + JSON.stringify(newCart))
     },
     editOrder: (index) => {
         const state = get()
