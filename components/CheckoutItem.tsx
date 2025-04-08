@@ -32,7 +32,7 @@ export function CheckoutItem(args: {order: ProductOrder}) {
                     </CardHeader>
                     <CardContent smallLeftMargin>
                         { 
-                            formattedOptions.map(option => <Text>{option}</Text>) 
+                            formattedOptions.map((option, idx) => <Text key={idx}>{option}</Text>) 
                         }
                     </CardContent>
                     <CardFooter smallLeftMargin>
