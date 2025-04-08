@@ -18,10 +18,10 @@ export function CheckoutItem(args: {order: ProductOrder}) {
                 <Image 
                     source={require("../assets/images/coffee.jpeg")}    
                     style={{
-                        width: 60,
-                        height: 60,
-                        borderRadius: 30,
-                        marginLeft: 10,
+                        width: 70,
+                        height: 70,
+                        borderRadius: 35,
+                        marginLeft: 15,
                         marginTop: 15
                     }}
                 />

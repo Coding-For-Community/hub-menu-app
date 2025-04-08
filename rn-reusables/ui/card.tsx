@@ -21,7 +21,7 @@ const Card = React.forwardRef<ViewRef, CardProps>(({ className, ...props }, ref)
 Card.displayName = 'Card';
 
 const CardHeader = React.forwardRef<ViewRef, CardProps>(({ className, ...props }, ref) => (
-  <View ref={ref} className={cn(`flex flex-col space-y-1.5 p-6 pl-${props.smallLeftMargin ? 3 : 6}`, className)} {...props} />
+  <View ref={ref} className={cn(`flex flex-col space-y-1.5 p-6 pl-${props.smallLeftMargin ? 4 : 6}`, className)} {...props} />
 ));
 CardHeader.displayName = 'CardHeader';
 
@@ -45,7 +45,7 @@ const CardDescription = React.forwardRef<TextRef, TextProps>(({ className, ...pr
 CardDescription.displayName = 'CardDescription';
 
 const CardContent = React.forwardRef<ViewRef, CardProps>(({ className, ...props }, ref) => {
-  const cls = props.smallLeftMargin ? "p-6 pt-0 pl-3" : "p-6 pt-0"
+  const cls = props.smallLeftMargin ? "p-6 pt-0 pl-4" : "p-6 pt-0"
   return (
     <TextClassContext.Provider value='text-card-foreground'>
       <View ref={ref} className={cn(cls, className)} {...props} />
@@ -55,7 +55,7 @@ const CardContent = React.forwardRef<ViewRef, CardProps>(({ className, ...props 
 CardContent.displayName = 'CardContent';
 
 const CardFooter = React.forwardRef<ViewRef, CardProps>(({ className, ...props }, ref) => {
-  const cls = props.smallLeftMargin ? "flex flex-row items-center p-6 pt-0 pl-3" : "flex flex-row items-center p-6 pt-0"
+  const cls = props.smallLeftMargin ? "flex flex-row items-center p-6 pt-0 pl-4" : "flex flex-row items-center p-6 pt-0"
   return (
     <View ref={ref} className={cn(cls, className)} {...props} />
   )
