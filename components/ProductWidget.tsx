@@ -10,7 +10,7 @@ export function DemoProductWidget() {
     return (
         <YStack 
             onPress={() => startOrder(DUMMY_PRODUCT)}    
-            style={{ alignItems: "center" }}
+            style={{alignItems: "center"}}
         >
             <Image 
                 source={require("../assets/images/coffee.jpeg")}    

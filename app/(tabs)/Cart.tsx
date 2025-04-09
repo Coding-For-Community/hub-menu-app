@@ -9,42 +9,52 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Button } from "@/rn-reusables/ui/button";
 import { Text } from "@/rn-reusables/ui/text";
 import { PayingButton } from "@/components/PayingButton";
+import { useProductState } from "@/state/ProductState";
 
 
 export default function Cart() {
 	const [date, setDate] = useState(new Date(1000000))
 	const [showDatePicker, setDatePickerOpen] = useState(false)
+	const cart = useProductState(state => state.cart)
+	if (cart.length === 0) {
+		return (
+			<YStack style={{marginBottom: 10}}>
+				<H1 style={styles.title}>Checkout</H1>
+				<Separator />
+				<H3 style={{margin: 15}}>No items yet; go order some!</H3>
+			</YStack>
+		)
+	}
+
+	const priceWithoutTax = cart.map(order => order.product.priceDollars).reduce((a, b) => a + b)
+	const tax = priceWithoutTax * 0.06
+	const totalPrice = priceWithoutTax + tax
 
 	return (
 		<>
 			<YStack style={{marginBottom: 10}}>
 				<H1 style={styles.title}>Checkout</H1>
 				<Separator />
-				<CheckoutItem order={{
-					product: DUMMY_PRODUCT,
-					size: "large",
-					customization: {
-						"skldfjlsdf": "hello",
-						"sdfddfd": "goodbye"
-					}
-				}} />
+				{
+					cart.map((order, idx) => <CheckoutItem order={order} orderIndex={idx} />)
+				}
 			</YStack>
 
-			<YStack style={{margin: 10, marginLeft: 100}}>
+			<YStack style={{margin: 15, marginLeft: 100}}>
 				<XStack>
 					<Text>Subtotal</Text>
 					<Text style={{width: "100%"}} numberOfLines={1}>...........................................................................................................................................................................................................................................................................................................................................................................................................................................</Text>
-					<Text>$10.95</Text>
+					<Text>${priceWithoutTax}</Text>
 				</XStack>
 				<XStack>
 					<Text>Tax</Text>
 					<Text style={{width: "100%"}} numberOfLines={1}>...........................................................................................................................................................................................................................................................................................................................................................................................................................................</Text>
-					<Text>$10000</Text>
+					<Text>${tax.toFixed(2)}</Text>
 				</XStack>
 				<XStack style={{marginBottom: 10}}>
 					<H3>Total</H3>
 					<H3 style={{width: "100%"}} numberOfLines={1}>...........................................................................................................................................................................................................................................................................................................................................................................................................................................</H3>
-					<H3>$10.95</H3>
+					<H3>${totalPrice.toFixed(2)}</H3>
 				</XStack>
 
 				{/* <Button 

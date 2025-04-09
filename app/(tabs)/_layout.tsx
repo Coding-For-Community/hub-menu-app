@@ -1,6 +1,6 @@
 import {Tabs} from "expo-router";
 import Feather from '@expo/vector-icons/Feather';
-import { View } from "react-native";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function TabLayout() {
 	return (
@@ -28,9 +28,13 @@ export default function TabLayout() {
 				name="UserProfile" 
 				options={{
 					title: "Profile", 
-					headerShown: false
+					headerShown: false,
+					tabBarIcon: ({color, size}) => (
+						<Ionicons name="person" size={size} color={color} />
+					)
 				}}
 			/>
+			<Tabs.Screen name="Admin" />
 		</Tabs>
 	)
 }

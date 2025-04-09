@@ -17,6 +17,8 @@ export interface ProductState {
     setSize: (size: Size) => void, // sets the user's desired size
     addOrderToCart: () => void, // pushes the order to cart and clears cache
     editOrder: (cartIndex: number) => void, // removes an order from cart, pushing it into the cache for editing
+    removeOrder: (cartIndex: number) => void, // just removes an order from cart
+    duplicateOrder: (cartIndex: number) => void,
     loadFromStorage: (products: Product[]) => void, // loads state from remote storage
 }
 
@@ -74,7 +76,7 @@ export const useProductState = create<ProductState>((set, get) => ({
     editOrder: (index) => {
         const state = get()
         if (index < 0 || index >= state.cart.length) {
-            console.error("editOrder index out of range.")
+            console.error("editOrder/removeOrder index out of range.")
             return
         }
         const newCart = state.cart.slice(0, index).concat(state.cart.slice(index + 1))
@@ -86,6 +88,12 @@ export const useProductState = create<ProductState>((set, get) => ({
             customizationOfOrder: orderToEdit.customization
         })
     },
+    removeOrder: (index) => {
+        const state = get()
+        state.editOrder(index)
+        state.clearLastOrder()
+    },
+    duplicateOrder: (index) => set({ cart: get().cart.concat(get().cart[index]) }),
     loadFromStorage: (products) => set({ 
         allProducts: products,
         productToOrder: null, 

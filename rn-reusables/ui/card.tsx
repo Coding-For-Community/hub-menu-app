@@ -55,7 +55,7 @@ const CardContent = React.forwardRef<ViewRef, CardProps>(({ className, ...props 
 CardContent.displayName = 'CardContent';
 
 const CardFooter = React.forwardRef<ViewRef, CardProps>(({ className, ...props }, ref) => {
-  const cls = props.smallLeftMargin ? "flex flex-row items-center p-6 pt-0 pl-4" : "flex flex-row items-center p-6 pt-0"
+  const cls = props.smallLeftMargin ? "flex flex-row items-center p-6 pt-0 pl-4 pb-4" : "flex flex-row items-center p-6 pt-0"
   return (
     <View ref={ref} className={cn(cls, className)} {...props} />
   )
