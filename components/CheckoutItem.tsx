@@ -1,12 +1,13 @@
 import { XStack, YStack } from "@/components/XYStack";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/rn-reusables/ui/card";
-import { Image, Pressable, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, Text } from "react-native";
 import Feather from '@expo/vector-icons/Feather';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { ProductOrder } from "@/state/ProductOrder";
 import { PressableIcon } from "./icons/PressableIcon";
 import { useProductState } from "@/state/ProductState";
+import { OCCUPY_FULL_WIDTH } from "./occupyFullWidth";
 
 
 export function CheckoutItem(args: {order: ProductOrder, orderIndex: number}) {
@@ -19,7 +20,7 @@ export function CheckoutItem(args: {order: ProductOrder, orderIndex: number}) {
     }
     
     return (
-        <Card style={{borderRadius: 0}} key={args.orderIndex}>
+        <Card style={{borderRadius: 0}}>
             <XStack>
                 <Image 
                     source={require("../assets/images/coffee.jpeg")}    
@@ -27,29 +28,33 @@ export function CheckoutItem(args: {order: ProductOrder, orderIndex: number}) {
                 />
                 <YStack>
                     <CardHeader smallLeftMargin>
-                        <CardTitle>{args.order.product.name}</CardTitle>
-                        <CardDescription>{args.order.size}</CardDescription>
+                        <CardTitle style={{fontSize: 25}}>{args.order.product.name}</CardTitle>
+                        <CardDescription style={{fontSize: 14}}>{args.order.size}</CardDescription>
                     </CardHeader>
                     <CardContent smallLeftMargin>
                         { 
-                            formattedOptions.map((option, idx) => <Text key={idx}>{option}</Text>) 
+                            formattedOptions.map(
+                                (option, idx) => <Text key={idx} style={{fontSize: 15}}>{option}</Text>
+                            ) 
                         }
                     </CardContent>
                     <CardFooter smallLeftMargin>
                         <XStack style={{alignItems: "center", gap: 20}}>
                             <PressableIcon>
-                                <Feather name="edit-2" size={20} color="black" />
+                                <Feather name="edit-2" size={24} color="black" />
                             </PressableIcon>
                             <PressableIcon onPress={() => removeOrder(args.orderIndex)}>
-                                <MaterialIcons name="delete-outline" size={24} color="black" />
+                                <MaterialIcons name="delete-outline" size={29} color="black" />
                             </PressableIcon>
                             <PressableIcon onPress={() => duplicateOrder(args.orderIndex)}>
-                                <Ionicons name="duplicate-outline" size={23} color="black" />
+                                <Ionicons name="duplicate-outline" size={28} color="black" />
                             </PressableIcon>
                         </XStack>
                     </CardFooter>
                 </YStack>
-                <Text style={styles.priceText}>${args.order.product.priceDollars}</Text>
+                <Text style={[OCCUPY_FULL_WIDTH, styles.priceText]}>
+                    ${args.order.product.priceDollars}
+                </Text>
             </XStack>
         </Card>
     )
@@ -67,8 +72,7 @@ const styles = StyleSheet.create({
         textAlign: "right",
         fontWeight: "500",
         fontSize: 20,
-        width: "100%",
-        marginRight: 15,
-        marginTop: 15
+        marginTop: 15,
+        marginRight: 15
     }
 })

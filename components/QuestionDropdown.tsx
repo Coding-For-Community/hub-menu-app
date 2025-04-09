@@ -41,8 +41,8 @@ export function QuestionDropdown(args: {question: Question}) {
                 <SelectGroup>
                     <SelectLabel>{args.question.name}</SelectLabel>
                     {
-                        args.question.choices.map(choice => (
-                            <SelectItem label={choice} value={choice}>{choice}</SelectItem>
+                        args.question.choices.map((choice, idx) => (
+                            <SelectItem label={choice} value={choice} key={idx}>{choice}</SelectItem>
                         ))
                     }
                 </SelectGroup>

@@ -25,7 +25,7 @@ export function OrderItemView() {
                 <Text style={{fontSize: 30}}>Latte</Text>
                 <Text style={{fontSize: 30, fontWeight: 200}}>Calories: 10000</Text>
             </YStack>
-            <YStack style={{paddingHorizontal: 25, marginBottom: 45}}>
+            <YStack style={{paddingHorizontal: 25, marginBottom: 55}}>
                 {
                     productToOrder?.hasSizeOptions && 
                     <>
