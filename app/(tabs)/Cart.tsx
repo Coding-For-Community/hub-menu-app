@@ -3,19 +3,31 @@ import { XStack, YStack } from "@/components/XYStack";
 import { H1, H3 } from "@/rn-reusables/ui/typography";
 import { Separator } from "@/rn-reusables/ui/separator";
 import { StyleSheet } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Text } from "@/rn-reusables/ui/text";
 import { PayingButton } from "@/components/PayingButton";
 import { useProductState } from "@/state/ProductState";
 import { OCCUPY_FULL_WIDTH } from "@/components/occupyFullWidth";
-
+import BottomSheet, { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { OrderItemView } from "@/components/bottomsheet/OrderItemView";
+import { useBackdrop } from "@/components/bottomsheet/useBackdrop";
+import { OrderingMode } from "@/state/OrderingMode";
 
 export default function Cart() {
 	const [date, setDate] = useState(new Date(1000000))
 	const [showDatePicker, setDatePickerOpen] = useState(false)
 	const cart = useProductState(state => state.cart)
-	if (cart.length === 0) {
+	const orderingMode = useProductState(state => state.orderingMode)
+	const saveToCart = useProductState(state => state.addOrderToCart)
+	const itemPageRef = useRef<BottomSheetModal>(null) 
+	const backdrop = useBackdrop()
+
+	useEffect(() => {
+		if (orderingMode == OrderingMode.EDIT_ORDER) itemPageRef.current?.expand()
+	}, [orderingMode, itemPageRef.current])
+
+	if (cart.length === 0 && orderingMode != OrderingMode.EDIT_ORDER) {
 		return (
 			<YStack style={{marginBottom: 10}}>
 				<H1 style={styles.title}>Checkout</H1>
@@ -25,7 +37,10 @@ export default function Cart() {
 		)
 	}
 
-	const priceWithoutTax = cart.map(order => order.product.priceDollars).reduce((a, b) => a + b)
+	let priceWithoutTax = 0
+	for (let order of cart) {
+		priceWithoutTax += order.product.priceDollars
+	}
 	const tax = priceWithoutTax * 0.06
 	const totalPrice = priceWithoutTax + tax
 
@@ -67,6 +82,16 @@ export default function Cart() {
 				<PayingButton bgColor="blue">Pay with student account</PayingButton>
 				<PayingButton bgColor="goldenrod">Pay with apple pay</PayingButton>
 			</YStack>
+
+			<BottomSheet 
+				ref={itemPageRef} 
+				index={-1} 
+				enablePanDownToClose 
+				backdropComponent={backdrop}
+				onClose={saveToCart}
+			>
+				<OrderItemView />
+			</BottomSheet>
 
 			{
 				showDatePicker &&

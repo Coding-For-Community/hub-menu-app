@@ -11,9 +11,10 @@ import { useProductState } from "@/state/ProductState";
 import { OrderItemView } from "@/components/bottomsheet/OrderItemView";
 import { useBackdrop } from "@/components/bottomsheet/useBackdrop";
 import React from "react";
+import { OrderingMode } from "@/state/OrderingMode";
 
 export default function MainMenu() {
-	const productToOrder = useProductState(state => state.productToOrder)
+    const orderingMode = useProductState(state => state.orderingMode)
 	const addToCart = useProductState(state => state.addOrderToCart)
 	const clearLastOrder = useProductState(state => state.clearLastOrder)
 	const { width } = useWindowDimensions()
@@ -22,8 +23,8 @@ export default function MainMenu() {
 	const backdrop = useBackdrop() // see components/bottomsheet/useBackdrop.tsx
 
     useEffect(() => {
-        if (productToOrder != null) itemPageRef.current?.expand()
-    }, [productToOrder, itemPageRef.current]) // TODO find out if this works on phone
+        if (orderingMode === OrderingMode.CREATE_ORDER) itemPageRef.current?.expand()
+    }, [orderingMode, itemPageRef.current]) // TODO find out if this works on phone
 	
 	return (
 		<>

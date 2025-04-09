@@ -1,6 +1,7 @@
 import { create } from "zustand/react"
 import { DUMMY_PRODUCT, Product } from "./Product"
 import { CustomizationOptions, ProductOrder, Size } from "./ProductOrder"
+import { OrderingMode } from "./OrderingMode"
 
 
 export interface ProductState {
@@ -9,6 +10,7 @@ export interface ProductState {
     sizeOfOrder: Size,
     customizationOfOrder: CustomizationOptions,
     cart: ProductOrder[],
+    orderingMode: OrderingMode,
 
     clearLastOrder: () => void, // clears the last order & its cache
     startOrder: (productToOrder: Product) => void, // starts a new order with a target product
@@ -29,10 +31,12 @@ export const useProductState = create<ProductState>((set, get) => ({
     sizeOfOrder: "large",
     customizationOfOrder: {},
     cart: [],
+    orderingMode: OrderingMode.NONE,
     clearLastOrder: () => set({
         productToOrder: null,
         sizeOfOrder: "large",
-        customizationOfOrder: {}
+        customizationOfOrder: {},
+        orderingMode: OrderingMode.NONE
     }),
     startOrder: (productToOrder) => {
         const state = get()
@@ -40,7 +44,7 @@ export const useProductState = create<ProductState>((set, get) => ({
             state.clearLastOrder()
             console.error("Last order was not cleared before setOrder called")
         }
-        set({ productToOrder })
+        set({ productToOrder, orderingMode: OrderingMode.CREATE_ORDER })
     },
     addProduct: (product) => {
         const currentProducts = get().allProducts
@@ -69,7 +73,8 @@ export const useProductState = create<ProductState>((set, get) => ({
             cart: newCart,
             productToOrder: null, 
             sizeOfOrder: "large",
-            customizationOfOrder: {}
+            customizationOfOrder: {},
+            orderingMode: OrderingMode.NONE
         })
         console.log("cart: " + JSON.stringify(newCart))
     },
@@ -85,7 +90,8 @@ export const useProductState = create<ProductState>((set, get) => ({
             cart: newCart,
             productToOrder: orderToEdit.product,
             sizeOfOrder: orderToEdit.size,
-            customizationOfOrder: orderToEdit.customization
+            customizationOfOrder: orderToEdit.customization,
+            orderingMode: OrderingMode.EDIT_ORDER
         })
     },
     removeOrder: (index) => {
@@ -99,6 +105,7 @@ export const useProductState = create<ProductState>((set, get) => ({
         productToOrder: null, 
         sizeOfOrder: "large",
         customizationOfOrder: {},
-        cart: []
+        cart: [],
+        orderingMode: OrderingMode.NONE
     }),
 }))

@@ -1,10 +1,17 @@
 import {Tabs} from "expo-router";
 import Feather from '@expo/vector-icons/Feather';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useProductState } from "@/state/ProductState";
+import { OrderingMode } from "@/state/OrderingMode";
 
 export default function TabLayout() {
+	const orderingMode = useProductState(state => state.orderingMode)
 	return (
-		<Tabs>
+		<Tabs 
+			screenOptions={{
+				tabBarStyle: orderingMode == OrderingMode.NONE ? {} : {display: "none"}
+			}}
+		>
 			<Tabs.Screen 
 				name="MainMenu" 
 				options={{

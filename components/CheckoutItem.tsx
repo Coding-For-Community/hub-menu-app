@@ -13,6 +13,7 @@ import { OCCUPY_FULL_WIDTH } from "./occupyFullWidth";
 export function CheckoutItem(args: {order: ProductOrder, orderIndex: number}) {
     const removeOrder = useProductState(state => state.removeOrder)
     const duplicateOrder = useProductState(state => state.duplicateOrder)
+    const editOrder = useProductState(state => state.editOrder)
 
     const formattedOptions: string[] = []
     for (var key in args.order.customization) { 
@@ -40,7 +41,7 @@ export function CheckoutItem(args: {order: ProductOrder, orderIndex: number}) {
                     </CardContent>
                     <CardFooter smallLeftMargin>
                         <XStack style={{alignItems: "center", gap: 20}}>
-                            <PressableIcon>
+                            <PressableIcon onPress={() => editOrder(args.orderIndex)}>
                                 <Feather name="edit-2" size={24} color="black" />
                             </PressableIcon>
                             <PressableIcon onPress={() => removeOrder(args.orderIndex)}>
