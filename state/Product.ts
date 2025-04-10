@@ -4,22 +4,28 @@ export interface Product {
     name: string
     type: ProductType
     hasSizeOptions: boolean
-    questions: Question[],
+    questions: Question[]
     priceDollars: number
 }
 
 export enum ProductType {
-    HOT_DRINK, COLD_DRINK, SEASONAL_SPECIAL
+    HOT_DRINK,
+    COLD_DRINK,
+    SEASONAL_SPECIAL,
 }
 
 export interface Question {
     name: string
     uuid: string
-    choices: string[],
+    choices: string[]
     defaultChoiceIdx: number
 }
 
-export function createQuestion(name: string, choices: string[], defaultChoiceIdx: number): Question {
+export function createQuestion(
+    name: string,
+    choices: string[],
+    defaultChoiceIdx: number,
+): Question {
     return { name, uuid: GenUUID.v4(), choices, defaultChoiceIdx }
 }
 
@@ -28,8 +34,6 @@ export const DUMMY_PRODUCT: Product = {
     name: "latte",
     type: ProductType.COLD_DRINK,
     hasSizeOptions: true,
-    questions: [
-        createQuestion("Fruit", ["Orange", "Banana", "Apple"], 0)
-    ],
-    priceDollars: 20.31
+    questions: [createQuestion("Fruit", ["Orange", "Banana", "Apple"], 0)],
+    priceDollars: 20.31,
 }

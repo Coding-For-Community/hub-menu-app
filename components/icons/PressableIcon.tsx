@@ -1,17 +1,22 @@
-import { ReactNode } from "react";
-import { Pressable } from "react-native";
+import { ReactNode } from "react"
+import { Pressable } from "react-native"
 
-export function PressableIcon(args: {children: ReactNode, onPress?: () => void}) {
+export function PressableIcon(args: {
+    children: ReactNode
+    onPress?: () => void
+}) {
     return (
-        <Pressable 
+        <Pressable
             onPress={args.onPress}
-            style={({pressed}) => [
+            style={({ pressed }) => [
                 {
                     opacity: pressed ? 0.5 : 1,
                     marginTop: pressed ? 5 : 0,
-                    marginBottom: pressed ? 0 : 5
-                }
+                    marginBottom: pressed ? 0 : 5,
+                },
             ]}
-        >{args.children}</Pressable>
+        >
+            {args.children}
+        </Pressable>
     )
 }

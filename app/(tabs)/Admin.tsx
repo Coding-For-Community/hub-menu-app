@@ -1,6 +1,5 @@
-import { YStack } from "@/components/XYStack";
-import { Text } from "@/rn-reusables/ui/text";
-
+import { YStack } from "@/components/XYStack"
+import { Text } from "@/rn-reusables/ui/text"
 
 export default function Admin() {
     return (
