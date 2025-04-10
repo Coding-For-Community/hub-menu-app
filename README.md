@@ -5,6 +5,12 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 ## Important Notes for Daniel
 1. For IOS deployment, make sure to check out the installation for react-native-reanimated, tailwind, nativewind, and react native gesture handler v2. There's prob custom setup for those in order for IOS deployment to work!!!!!!
 
+## Stuff we use
+1. Framework: React Native + Expo
+2. State Management: Zustand + React Query
+3. Styling: React Native Reusables, stylesheets
+3. Other libraries: gorhom/react-native-bottom-sheet, react-native-uuid, @react-native-community/datetimepicker
+
 ## Get started
 
 1. Install dependencies
@@ -27,16 +33,6 @@ In the output, you'll find options to open the app in a
 - [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
 ## Learn more
 
