@@ -5,7 +5,7 @@ import { StyleProp, TextStyle, ViewStyle } from "react-native"
  * full width of the viewport(patching the text overflow bug of react native)
  */
 export const OCCUPY_FULL_WIDTH: StyleProp<TextStyle & ViewStyle> = {
-    flex: 1,
-    flexShrink: 1,
-    width: "100%",
+  flex: 1,
+  flexShrink: 1,
+  width: "100%",
 }

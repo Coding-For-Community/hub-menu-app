@@ -1,10 +1,10 @@
 import "~/global.css"
 
 import {
-    Theme,
-    ThemeProvider,
-    DefaultTheme,
-    DarkTheme,
+  Theme,
+  ThemeProvider,
+  DefaultTheme,
+  DarkTheme,
 } from "@react-navigation/native"
 import { Stack } from "expo-router"
 import { StatusBar } from "expo-status-bar"
@@ -17,68 +17,65 @@ import { GestureHandlerRootView } from "react-native-gesture-handler"
 import { PortalHost } from "@rn-primitives/portal"
 
 const LIGHT_THEME: Theme = {
-    ...DefaultTheme,
-    colors: NAV_THEME.light,
+  ...DefaultTheme,
+  colors: NAV_THEME.light,
 }
 const DARK_THEME: Theme = {
-    ...DarkTheme,
-    colors: NAV_THEME.dark,
+  ...DarkTheme,
+  colors: NAV_THEME.dark,
 }
 
 export {
-    // Catch any errors thrown by the Layout component.
-    ErrorBoundary,
+  // Catch any errors thrown by the Layout component.
+  ErrorBoundary,
 } from "expo-router"
 
 export default function RootLayout() {
-    const hasMounted = React.useRef(false)
-    const { setColorScheme } = useColorScheme()
-    const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false)
+  const hasMounted = React.useRef(false)
+  const { setColorScheme } = useColorScheme()
+  const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false)
 
-    useIsomorphicLayoutEffect(() => {
-        if (hasMounted.current) {
-            return
-        }
-
-        if (Platform.OS === "web") {
-            // Adds the background color to the html element to prevent white background on overscroll.
-            document.documentElement.classList.add("bg-background")
-        }
-        setIsColorSchemeLoaded(true)
-        hasMounted.current = true
-    }, [])
-
-    if (!isColorSchemeLoaded) {
-        return null
+  useIsomorphicLayoutEffect(() => {
+    if (hasMounted.current) {
+      return
     }
 
-    verifyInstallation()
-    setColorScheme("light")
+    if (Platform.OS === "web") {
+      // Adds the background color to the html element to prevent white background on overscroll.
+      document.documentElement.classList.add("bg-background")
+    }
+    setIsColorSchemeLoaded(true)
+    hasMounted.current = true
+  }, [])
 
-    // GestureHandlerRootView allows for react-native-bottom-sheet to work,
-    // while ThemeProvider allows useTheme() to return the proper theme within components,
-    // and PortalHost enables dropdown support.
-    return (
-        <>
-            <GestureHandlerRootView>
-                <ThemeProvider value={LIGHT_THEME}>
-                    <StatusBar style={"light"} />
-                    <Stack>
-                        <Stack.Screen
-                            name="(tabs)"
-                            options={{ headerShown: false }}
-                        />
-                        <Stack.Screen name="+not-found" />
-                    </Stack>
-                </ThemeProvider>
-            </GestureHandlerRootView>
+  if (!isColorSchemeLoaded) {
+    return null
+  }
 
-            <PortalHost />
-        </>
-    )
+  verifyInstallation()
+  setColorScheme("light")
+
+  // GestureHandlerRootView allows for react-native-bottom-sheet to work,
+  // while ThemeProvider allows useTheme() to return the proper theme within components,
+  // and PortalHost enables dropdown support.
+  return (
+    <>
+      <GestureHandlerRootView>
+        <ThemeProvider value={LIGHT_THEME}>
+          <StatusBar style={"light"} />
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        </ThemeProvider>
+      </GestureHandlerRootView>
+
+      <PortalHost />
+    </>
+  )
 }
 
 const useIsomorphicLayoutEffect =
-    Platform.OS === "web" && typeof window === "undefined"
-        ? React.useEffect
-        : React.useLayoutEffect
+  Platform.OS === "web" && typeof window === "undefined"
+    ? React.useEffect
+    : React.useLayoutEffect
